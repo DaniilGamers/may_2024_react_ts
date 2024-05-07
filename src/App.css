@@ -1,4 +1,9 @@
-.Images{
+.App{
   display: flex;
-  flex-direction: column;
+}
+.users{
+  width: 50%;
+}
+.posts{
+  width: 50%;
 }

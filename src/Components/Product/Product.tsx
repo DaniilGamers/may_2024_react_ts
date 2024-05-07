@@ -49,7 +49,7 @@ const Product: FC<IProductTypeProps> = ({id, title, description, price, discount
 
             <ul>
                 {
-                    images?.map((images) => <img src={images}></img>)
+                    images?.map((images) => <img key={id} src={images}></img>)
                 }
             </ul>
 
