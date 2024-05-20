@@ -1,9 +1,35 @@
 .App{
   display: flex;
+  flex-direction: column;
 }
-.users{
-  width: 50%;
+
+.Box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
 }
-.posts{
-  width: 50%;
+
+.postBox{
+  width: 80vw;
+  height: 190px;
+  margin: 10px;
+  text-align: center;
+}
+
+.usernameBox{
+  width: 3vw;
+  height: 30px;
+  margin: 10px;
+  font-size: 100%;
+  text-align: center;
+}
+
+.titleBox{
+  width: 70vw;
+  height: 40px;
+  margin: 10px;
+  font-size: 150%;
+  text-align: center;
 }
