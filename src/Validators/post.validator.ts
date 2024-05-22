@@ -10,8 +10,8 @@ export const postValidator = Joi.object({
         "string.required": "This field is required",
         "string.max": "You typed enough words my friend"
     }),
-    userId: Joi.number().max(100).required().messages({
+    userId: Joi.number().max(10).required().messages({
         "number.required": "This field is required",
-        "number.max": "Maximum is 100"
+        "number.max": "Maximum is 10"
     })
 })

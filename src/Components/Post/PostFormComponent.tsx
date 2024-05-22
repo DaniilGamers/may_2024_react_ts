@@ -1,10 +1,11 @@
 import React, {FC, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi";
-import {postValidator} from "../Validators/post.validator";
+import {postValidator} from "../../Validators/post.validator";
 import {IPostModel} from "../Models/IPostModel";
+import {postService} from "../../Services/api.service";
 
-interface IFormProps {
+export interface IFormProps {
     id: number,
     userId: number,
     title: string,
@@ -20,23 +21,13 @@ const PostFormComponent: FC = () => {
         formState:{errors, isValid}
     } = useForm<IFormProps>({mode: "all", resolver: joiResolver(postValidator)});
 
-    const [post, setPosts] = useState<IPostModel | null>(null)
+    const [post, setPost] = useState<IPostModel | null>(null)
     
-    const save = ({body, title, userId}: IFormProps) => {
-        fetch('https://jsonplaceholder.typicode.com/posts', {
-        method: 'POST',
-            headers: {
-        'Accept': 'application/json',
-            'Content-Type': 'application/json'
-            },
-        body: JSON.stringify({
-            title: title,
-            body: body,
-            userId: userId
+    const save = (post: IFormProps) => {
 
-        })
-        }).then(value => value.json()).then(value => setPosts(value))
-    };
+        postService.savePost(post).then(value => setPost(value.data))
+
+    }
 
     return (
         <div className={'Box'}>
