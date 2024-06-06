@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {carService} from "../services/api.services";
+import CarsComponent from "../Components/CarsComponent";
 
 const CarsPage = () => {
 
@@ -9,7 +10,7 @@ const CarsPage = () => {
 
     return (
         <div>
-            CarsPage
+            <CarsComponent/>
         </div>
     );
 };

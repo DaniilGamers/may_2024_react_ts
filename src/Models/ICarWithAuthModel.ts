@@ -1,4 +1,4 @@
-export interface ICarWithAuthMode {
+export interface ICarWithAuthModel {
     id: number,
     brand: string,
     price: number,
