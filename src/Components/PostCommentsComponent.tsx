@@ -39,7 +39,7 @@ const PostCommentsComponent = () => {
                     }</div>
                     <ul>
                         {
-                            post.comments.map(comment => <div><h3>{comment.email}<br/></h3>{
+                            post.comments.map(comment => <div key={comment.id}><h3>{comment.email}<br/></h3>{
                                 <h4>{comment.body}</h4>
                             }</div>)
                         }
