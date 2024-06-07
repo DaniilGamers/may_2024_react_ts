@@ -1,7 +1,7 @@
-export interface ICommentModel {
+export interface ICommentsModel {
     id: number,
     postId: number,
     name: string,
     email: string,
-    body: string
+    body: string;
 }
