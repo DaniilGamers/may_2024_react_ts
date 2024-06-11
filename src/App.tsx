@@ -1,42 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import {IUserModel} from "./models/IUserModel";
-import {IPostModel} from "./models/IPostModel";
+import React, {useEffect} from 'react';
 import {commentService, postService, userService} from "./services/api.service";
 import HeaderComponent from "./Components/HeaderComponent";
 import {Outlet} from "react-router-dom";
-import {Context} from "./context/contextProvider";
-import {ICommentsModel} from "./models/ICommentsModel";
+import {useStore} from "./context/store";
 
 const App = () => {
 
-    const [users, setUsers] = useState<IUserModel[]>([])
-    const [posts, setPosts] = useState<IPostModel[]>([])
-    const [comments, setComments] = useState<ICommentsModel[]>([])
-
+    const {userStore} = useStore();
+    const {postStore} = useStore();
+    const {commentStore} = useStore();
     useEffect(() => {
-        userService.getUsers().then(value => setUsers(value.data));
-        postService.getPosts().then(value => setPosts(value.data));
-        commentService.getComments().then(value => setComments(value.data))
+        userService.getUsers().then(value => userStore.loadUsers(value.data));
+        postService.getPosts().then(value => postStore.loadPosts(value.data));
+        commentService.getComments().then(value => commentStore.loadComments(value.data))
     }, []);
 
     return (
         <div>
             <HeaderComponent/>
 
-            <Context.Provider value={{
-                userStore: {
-                    allUsers: users,
-                },
-                postStore: {
-                    allPosts: posts,
-                },
-                commentStore: {
-                    allComments: comments,
-                }
-
-            }}>
             <Outlet/>
-            </Context.Provider>
+            <hr/>
+            {userStore.favoriteUser && <div>{userStore.favoriteUser.email}</div>}
+            <hr/>
+            {postStore.favoritePost && <div>Post title: <br/><br/>{postStore.favoritePost.title}</div>}
+            <hr/>
         </div>
     );
 };
