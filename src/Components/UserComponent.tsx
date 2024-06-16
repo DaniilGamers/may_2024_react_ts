@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {IUserModel} from "../models/IUserModel";
-import {useStore} from "../context/store";
+import {useNavigate} from "react-router-dom";
 
 interface IProps {
     user: IUserModel;
@@ -8,11 +8,15 @@ interface IProps {
 
 const UserComponent:FC<IProps> = ({user}) => {
 
-    const {userStore:{setFavoriteUser}} = useStore();
+    const navigate = useNavigate();
 
     return (
         <div>
-            <br/>{user.id} {user.name} <button onClick={() => {setFavoriteUser(user)}}>set as favorite user</button><br/>
+            {user.id} : {user.name}
+            <button onClick={() => {
+                navigate(`${user.id}`);
+            }}>details
+            </button>
         </div>
     );
 };

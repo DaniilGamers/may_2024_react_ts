@@ -1,10 +1,15 @@
 import React from 'react';
-import PostsComponent from "../Components/PostsComponent";
+import {useAppSelector} from "../redux/store";
+
 
 const PostsPage = () => {
+
+    const {posts} = useAppSelector(state => state.postSlice);
     return (
         <div>
-            <PostsComponent/>
+            {
+                posts.map(post => <div key={post.id}> <ul><li>{post.title}</li></ul></div>)
+            }
         </div>
     );
 };

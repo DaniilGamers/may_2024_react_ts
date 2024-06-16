@@ -1,30 +1,26 @@
-import React, {useEffect} from 'react';
-import {commentService, postService, userService} from "./services/api.service";
+import React, {FC, useEffect} from 'react';
 import HeaderComponent from "./Components/HeaderComponent";
 import {Outlet} from "react-router-dom";
-import {useStore} from "./context/store";
+import {useAppDispatch} from "./redux/store";
+import {userActions} from "./redux/slices/userSlice";
+import {postActions} from "./redux/slices/postSlice";
+import {commentActions} from "./redux/slices/commentSlice";
 
-const App = () => {
+const App: FC = () => {
 
-    const {userStore} = useStore();
-    const {postStore} = useStore();
-    const {commentStore} = useStore();
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
-        userService.getUsers().then(value => userStore.loadUsers(value.data));
-        postService.getPosts().then(value => postStore.loadPosts(value.data));
-        commentService.getComments().then(value => commentStore.loadComments(value.data))
+        dispatch(userActions.loadUsers());
+        dispatch(postActions.loadPosts());
+        dispatch(commentActions.loadComments());
+
     }, []);
 
     return (
         <div>
             <HeaderComponent/>
-
             <Outlet/>
-            <hr/>
-            {userStore.favoriteUser && <div>{userStore.favoriteUser.email}</div>}
-            <hr/>
-            {postStore.favoritePost && <div>Post title: <br/><br/>{postStore.favoritePost.title}</div>}
-            <hr/>
         </div>
     );
 };

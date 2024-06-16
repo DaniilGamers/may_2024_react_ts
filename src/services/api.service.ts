@@ -1,6 +1,7 @@
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 import {IUserModel} from "../models/IUserModel";
 import {IPostModel} from "../models/IPostModel";
+import {urls} from "../constants/urls";
 import {ICommentsModel} from "../models/ICommentsModel";
 
 const axiosInstance = axios.create({
@@ -8,26 +9,27 @@ const axiosInstance = axios.create({
     headers: {}
 })
 
-const userService = {
-    getUsers: async (): Promise<AxiosResponse<IUserModel[]>> => {
-        return await axiosInstance.get<IUserModel[]>('/users')
+export const userService = {
+    getAll: async (): Promise<IUserModel[]> => {
+        const response = await axiosInstance.get<IUserModel[]>(urls.users.base);
+        return response.data
+    },
+    getById: async (id: string|undefined): Promise<IUserModel> => {
+        const response = await axiosInstance.get<IUserModel>(urls.users.base + '/' + id);
+        return response.data;
     }
 }
 
-const postService = {
-    getPosts: async (): Promise<AxiosResponse<IPostModel[]>> => {
-        return await axiosInstance.get<IPostModel[]>('/posts')
+export const postService = {
+    getAll: async () => {
+        const response = await axiosInstance.get<IPostModel[]>(urls.posts.base);
+        return response.data;
     }
 }
 
-const commentService = {
-    getComments: async (): Promise<AxiosResponse<ICommentsModel[]>> => {
-        return await axiosInstance.get<ICommentsModel[]>('/comments')
+export const commentService = {
+    getAll: async () => {
+        const response = await axiosInstance.get<ICommentsModel[]>(urls.posts.base);
+        return response.data;
     }
-}
-
-export {
-    userService,
-    postService,
-    commentService
 }

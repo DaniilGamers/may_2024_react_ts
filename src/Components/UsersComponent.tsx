@@ -1,14 +1,14 @@
 import React from 'react';
-import {useStore} from "../context/store";
 import UserComponent from "./UserComponent";
+import {useAppSelector} from "../redux/store";
 
 const UsersComponent = () => {
 
-    const {userStore: {allUsers}} = useStore();
+    const {users, isLoaded} = useAppSelector(state => state.userSlice)
     return (
         <div>
             {
-                allUsers.map(user => <UserComponent key={user.id} user={user}/>)
+                isLoaded ? users.map(user => <UserComponent user={user} key={user.id}/>) : <h2>Loading....</h2>
             }
         </div>
     );
