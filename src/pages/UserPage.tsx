@@ -5,13 +5,14 @@ import {userActions} from "../redux/slices/userSlice";
 
 const UserPage = () => {
 
-    const {id} = useParams();
+   let {id} = useParams();
     const dispatch = useAppDispatch();
 
-    const user = useAppSelector(state => state.userSlice.user);
+    const {user} = useAppSelector(state => state.userSlice);
     useEffect(() => {
-        dispatch(userActions.loadUsersById(id));
-
+        if (id){
+               dispatch(userActions.loadUsersById(id))
+        }
 
     }, [id]);
 

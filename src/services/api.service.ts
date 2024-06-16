@@ -1,11 +1,11 @@
 import axios from "axios";
 import {IUserModel} from "../models/IUserModel";
 import {IPostModel} from "../models/IPostModel";
-import {urls} from "../constants/urls";
+import {baseUrl, urls} from "../constants/urls";
 import {ICommentsModel} from "../models/ICommentsModel";
 
 const axiosInstance = axios.create({
-    baseURL: 'https://jsonplaceholder.typicode.com',
+    baseURL: baseUrl,
     headers: {}
 })
 
@@ -14,7 +14,7 @@ export const userService = {
         const response = await axiosInstance.get<IUserModel[]>(urls.users.base);
         return response.data
     },
-    getById: async (id: string|undefined): Promise<IUserModel> => {
+    getById: async (id: string): Promise<IUserModel> => {
         const response = await axiosInstance.get<IUserModel>(urls.users.base + '/' + id);
         return response.data;
     }

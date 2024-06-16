@@ -6,13 +6,15 @@ import {AxiosError} from "axios";
 type UserSliceType = {
     users: IUserModel[];
     isLoaded: boolean;
-    user: IUserModel | null
+    user: IUserModel | null;
+    error: string | unknown
 }
 
 const userInitState: UserSliceType = {
     users: [],
     isLoaded: false,
-    user: null
+    user: null,
+    error: ''
 }
 
 const loadUsers = createAsyncThunk(
@@ -25,21 +27,29 @@ const loadUsers = createAsyncThunk(
             return thunkAPI.fulfillWithValue(users);
         } catch (e) {
             const error = e as AxiosError;
-            return thunkAPI.rejectWithValue(error.response?.data)
+            if (error.response) {
+                return thunkAPI.rejectWithValue(error.message)
+            }else {
+                return thunkAPI.rejectWithValue("unknown error")
+            }
         }
     }
 );
 const loadUsersById = createAsyncThunk(
     'userSlice/loadUserById',
-    async (_: string | undefined, thunkAPI)=> {
-
+    async (id: string, thunkAPI)=> {
+        if (id){
         try {
-            const user = await userService.getById(_);
+
+            const user = await userService.getById(id);
             return thunkAPI.fulfillWithValue(user);
-        } catch (e) {
+
+            } catch (e) {
             const error = e as AxiosError;
             return thunkAPI.rejectWithValue(error.response?.data);
         }
+        }
+        return null
     }
 )
 
@@ -64,7 +74,7 @@ export const userSlice = createSlice({
             })
             .addCase(loadUsers.rejected, (state, action) => {})
             .addMatcher(isFulfilled(loadUsers, loadUsersById), (state, action) => {
-                //state.isLoaded = true
+                state.error = action.payload;
             })
             .addMatcher(isRejected(loadUsers, loadUsersById), () => {
                 //.....
