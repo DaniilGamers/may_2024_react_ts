@@ -7,7 +7,7 @@ type UserSliceType = {
     users: IUserModel[];
     isLoaded: boolean;
     user: IUserModel | null;
-    error: string | unknown
+    error: string | null
 }
 
 const userInitState: UserSliceType = {
@@ -38,7 +38,7 @@ const loadUsers = createAsyncThunk(
 const loadUsersById = createAsyncThunk(
     'userSlice/loadUserById',
     async (id: string, thunkAPI)=> {
-        if (id){
+
         try {
 
             const user = await userService.getById(id);
@@ -49,8 +49,6 @@ const loadUsersById = createAsyncThunk(
             return thunkAPI.rejectWithValue(error.response?.data);
         }
         }
-        return null
-    }
 )
 
 export const userSlice = createSlice({
@@ -74,7 +72,7 @@ export const userSlice = createSlice({
             })
             .addCase(loadUsers.rejected, (state, action) => {})
             .addMatcher(isFulfilled(loadUsers, loadUsersById), (state, action) => {
-                state.error = action.payload;
+                //state.error = action.payload;
             })
             .addMatcher(isRejected(loadUsers, loadUsersById), () => {
                 //.....
